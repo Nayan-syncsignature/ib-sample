@@ -1,15 +1,23 @@
-'use client'
+"use client";
 
-import React, { JSX } from 'react'
-import { useParams } from 'next/navigation'
-import Canvas from '@/modules/Canvas'
+import React from "react";
+import { useParams } from "next/navigation";
+import Canvas from "@/modules/Canvas";
+import { componentMap, ComponentType } from "@/utils/component-mapper";
 
-const DynamicEditor = () => {
-  const params = useParams()
-  const type = params.type as string
+const Editor = () => {
+  const params = useParams();
+  const type = params.type as string;
 
+  const isValidType = (type: string): type is ComponentType => {
+    return type in componentMap;
+  };
 
-  return <Canvas type={type} />
-}
+  if (!isValidType(type)) {
+    return <div>Editor type "{type}" not found.</div>;
+  }
 
-export default DynamicEditor
+  return <Canvas type={type} />;
+};
+
+export default Editor;

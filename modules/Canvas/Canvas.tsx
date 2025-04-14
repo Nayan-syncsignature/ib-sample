@@ -1,23 +1,18 @@
-import React, { JSX } from 'react'
-import SocialPost from './components/SocialPost'
-import Carousel from './components/Carousel'
-import SocialBanner from './components/SocialBanner'
+import { componentMap, ComponentType } from "@/utils/component-mapper";
+import React, { Suspense } from "react";
 
-const componentMap: Record<string, JSX.Element> = {
-    'social-post': <SocialPost />,
-    'carousel': <Carousel />,
-    'social-banner': <SocialBanner />,
-}
+type CanvasProps = {
+  type: ComponentType;
+};
 
-const Canvas = ({ type }: {type: string}) => {
+const Canvas = ({ type }: CanvasProps) => {
+  const Component = componentMap[type];
 
-  const Component = componentMap[type]
+  return (
+    <Suspense fallback={<div>Loading editor...</div>}>
+      <Component />
+    </Suspense>
+  );
+};
 
-  if (!Component) {
-    return <div>Editor type "{type}" not found.</div>
-  }
-
-  return <>{Component}</>
-}
- 
-export default Canvas
+export default Canvas;
