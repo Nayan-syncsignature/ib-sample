@@ -1,4 +1,4 @@
-// src/lib/redux/slices/brandConfigSlice.ts
+// lib/redux/slices/brandConfigSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface BrandConfigState {
