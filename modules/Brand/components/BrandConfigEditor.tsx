@@ -1,6 +1,7 @@
 // src/components/BrandConfigEditor.tsx
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useBrandConfig } from "@/lib/redux/hooks/useBrandConfig";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -141,12 +142,12 @@ const BrandConfigEditor: React.FC = () => {
       </div>
 
       <div className="mt-8">
-        <button
+        <Button
           onClick={handleNext}
           className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300"
         >
           Next
-        </button>
+        </Button>
       </div>
 
       {/* Preview */}
