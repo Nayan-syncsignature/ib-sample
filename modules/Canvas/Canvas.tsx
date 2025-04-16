@@ -1,7 +1,7 @@
 import { componentMap, ComponentType } from "@/utils/component-mapper";
 import React, { Suspense } from "react";
 
-type CanvasProps = {
+export type CanvasProps = {
   type: ComponentType;
 };
 

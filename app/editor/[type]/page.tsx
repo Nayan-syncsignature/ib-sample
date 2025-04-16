@@ -21,9 +21,9 @@ const Editor = () => {
 
   return (
     <div className="grid grid-cols-[20%_60%_20%]">
-      <ControlPanel />
+      {/* <ControlPanel type={type} /> */}
       <Canvas type={type} />
-      <TemplatePanel />
+      {/* <TemplatePanel /> */}
     </div>
   );
 };
