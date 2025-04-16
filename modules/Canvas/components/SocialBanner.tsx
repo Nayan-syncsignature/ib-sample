@@ -32,7 +32,7 @@ export default function SocialMediaBannerPage() {
     width: width || 1200, // Use width from useCanvasDimensions hook
     height: height || 630, // Use height from useCanvasDimensions hook
     fontSize: {
-      heading: "5xl",
+      heading: "48px",
       description: "4xl",
       button: 20,
     },

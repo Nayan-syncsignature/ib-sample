@@ -119,7 +119,10 @@ function SocialBanner({
         <div className="justify-center h-[195.15px] w-[837px] my-auto grid grid-cols-[60%_40%] gap-[32px]">
           {/* Left content area - titles */}
           <div
-            className={`h-[130px] tracking-[-.05em] font-${primaryFont} leading-[100%] font-semibold text-${fontSize?.heading} text-${textColor} text-right`}
+            className={`h-[130px] tracking-[-.05em] font-${primaryFont} leading-[100%] font-semibold  text-${textColor} text-right`}
+            style={{
+              fontSize: `${fontSize?.heading}`
+            }}
           >
             {heading}
           </div>
