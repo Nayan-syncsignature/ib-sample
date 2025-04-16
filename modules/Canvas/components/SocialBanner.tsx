@@ -6,6 +6,7 @@ import { Image } from "lucide-react";
 import SocialBanner from "@/components/instant-branding/social-banner";
 import useCanvasDimensions from "@/lib/redux/hooks/useCanvasDimensions";
 
+
 export default function SocialMediaBannerPage() {
   // Get brand configuration from Redux
   const brandConfig = useBrandConfig();
@@ -36,6 +37,10 @@ export default function SocialMediaBannerPage() {
       button: 20,
     },
     textColor: "white",
+    svgConfig: {
+      svgUrl: 'https://i.postimg.cc/WbJNvqnF/img.png',
+      svgPosition: "right center"
+    }
   };
   return (
     <div>
