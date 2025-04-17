@@ -6,12 +6,11 @@ import { Image } from "lucide-react";
 import SocialBanner from "@/components/instant-branding/social-banner";
 import { CommonComponetProps } from "@/components/types";
 
-export default function SocialMediaBannerPage({
+export default function SocialBannerWrapper({
   data,
   commonConfig,
   brandConfig,
 }: CommonComponetProps) {
-
   return (
     <div
       style={{
