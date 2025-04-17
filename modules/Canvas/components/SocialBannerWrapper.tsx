@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useBrandConfig } from "@/lib/redux/hooks/useBrandConfig";
+import { useBrandConfig } from "@/store/hooks/useBrandConfig";
 import { Image } from "lucide-react";
 import SocialBanner from "@/components/instant-branding/social-banner";
 import { CommonComponetProps } from "@/components/types";

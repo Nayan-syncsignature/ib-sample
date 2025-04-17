@@ -1,8 +1,8 @@
 import { componentMap, ComponentType } from "@/utils/component-mapper";
 import React, { Suspense } from "react";
-import { useBrandConfig } from "@/lib/redux/hooks/useBrandConfig";
-import { useCommonConfig } from "@/lib/redux/hooks/useCommonConfig";
-import { useDataConfig } from "@/lib/redux/hooks/useDataConfig";
+import { useBrandConfig } from "@/store/hooks/useBrandConfig";
+import { useCommonConfig } from "@/store/hooks/useCommonConfig";
+import { useDataConfig } from "@/store/hooks/useDataConfig";
 
 export type CanvasProps = {
   type: ComponentType;

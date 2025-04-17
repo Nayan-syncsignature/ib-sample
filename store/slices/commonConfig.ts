@@ -1,30 +1,9 @@
+import { CommonConfig } from "@/components/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface PlatformDimension {
   width: number;
   height: number;
-}
-
-export interface CommonConfig {
-  width: number;
-  height: number;
-  buttonStyle?: "rounded" | "square";
-  fontSize?: {
-    heading?: string;
-    description?: string;
-    button?: number;
-  };
-  backdropConfig?: {
-    backdropUrl?: string;
-    backdropPosition?: string;
-  };
-  textColor?: string;
-  fontFamily?: string;
-  highlightColor?: string;
-  isBold?: boolean;
-  isItalic?: boolean;
-  isUnderlined?: boolean;
-  textContent?: string;
 }
 
 const initialState: CommonConfig = {
@@ -34,11 +13,12 @@ const initialState: CommonConfig = {
   fontSize: {
     heading: "48px",
     description: "32px",
-    button: 16,
+    ctaButton: "18",
+    communityButton: "",
   },
   backdropConfig: {
-    backdropUrl: "",
-    backdropPosition: "center",
+    backdropUrl: "https://i.postimg.cc/WbJNvqnF/img.png",
+    backdropPosition: "right center",
   },
   textColor: "#000000",
   fontFamily: "Arial",

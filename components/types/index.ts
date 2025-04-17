@@ -1,7 +1,7 @@
 export interface Data {
-  heading?: string;
-  subHeading?: string;
-  description?: string;
+  heading?: TrustedHTML;
+  subHeading?: TrustedHTML;
+  description?: TrustedHTML;
   imageUrl?: string;
   imageAlt?: string;
   buttonText?: string;
@@ -16,13 +16,20 @@ export interface CommonConfig {
   fontSize?: {
     heading?: string;
     description?: string;
-    button?: number;
+    ctaButton?: string;
+    communityButton?: string;
   };
   backdropConfig?: {
     backdropUrl?: string;
     backdropPosition?: string;
   };
   textColor?: string;
+  fontFamily?: string;
+  highlightColor?: string;
+  isBold?: boolean;
+  isItalic?: boolean;
+  isUnderlined?: boolean;
+  textContent?: string;
 }
 
 // Match the existing BrandConfigState interface

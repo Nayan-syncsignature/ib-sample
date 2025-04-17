@@ -62,14 +62,20 @@ function SocialBanner({
       />
       <div className="relative grid grid-cols-[20%_60%_20%]">
         {/* JOIN OUR COMMUNITY button at top left */}
-        <div className={`pl-[40px] pt-[40px]`} 
-          style={{fontFamily: secondaryFont,}}
+        <div
+          className={`pl-[40px] pt-[40px]`}
+          style={{ fontFamily: secondaryFont }}
         >
           <div
-            className={`py-[10px] px-[16px] text-[16px] w-[231px] h-[44px] ${
+            className={`py-[10px] px-[16px] w-[231px] h-[44px] ${
               buttonStyle === "rounded" ? "rounded-md" : "rounded-none"
             }`}
-            style={{ backgroundColor: secondaryColor, color: textColor, fontFamily: secondaryFont,}}
+            style={{
+              backgroundColor: secondaryColor,
+              color: textColor,
+              fontFamily: secondaryFont,
+              fontSize: fontSize?.communityButton,
+            }}
           >
             {communityButtonText}
           </div>
@@ -85,9 +91,8 @@ function SocialBanner({
               fontFamily: secondaryFont,
               color: textColor,
             }}
-          >
-            {heading}
-          </div>
+            dangerouslySetInnerHTML={{ __html: heading ?? "" }}
+          ></div>
 
           {/* Right content area - sub-titles */}
           <div className="grid grid-rows-[65%_35%] w-[342px] h-[199px]">
@@ -98,17 +103,17 @@ function SocialBanner({
                 fontFamily: secondaryFont,
                 color: textColor,
               }}
-            >
-              {description}
-            </div>
+              dangerouslySetInnerHTML={{ __html: description ?? "" }}
+            />
             <div className="flex items-end">
               <div
                 className={`text-center p-[14.08px] tracking-[-.05em] leading-[100%] text-[24.63px] font-semibold h-[49px] w-[188px]`}
-                style={{ 
+                style={{
                   backgroundColor: highlightColor,
                   color: textColor,
                   fontFamily: highlightFont,
-                  borderRadius: (buttonStyle === "rounded") ? "6px" : "0px"}}
+                  borderRadius: buttonStyle === "rounded" ? "6px" : "0px",
+                }}
               >
                 {ctaButtonText}
               </div>

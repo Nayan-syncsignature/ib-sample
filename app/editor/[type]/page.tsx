@@ -20,10 +20,12 @@ const Editor = () => {
   }
 
   return (
-    <div className="grid grid-cols-[20%_60%_20%]">
-      <ControlPanel type={type} />
+    <div className="grid grid-cols-[25%_60%]">
+      <div className="h-[100vh] overflow-auto">
+        <ControlPanel type={type} />
+      </div>
       <Canvas type={type} />
-      <TemplatePanel />
+      {/* <TemplatePanel /> */}
     </div>
   );
 };

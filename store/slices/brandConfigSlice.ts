@@ -1,26 +1,18 @@
 // lib/redux/slices/brandConfigSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { BrandConfig } from "@/components/types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface BrandConfigState {
-  primaryColor: string;
-  secondaryColor: string;
-  highlightColor: string;
-  primaryFont: string;
-  secondaryFont: string;
-  highlightFont: string;
-}
-
-const initialState: BrandConfigState = {
-  primaryColor: '#0070f3',
-  secondaryColor: '#f5f5f5',
-  highlightColor: '#ff0080',
-  primaryFont: 'Inter',
-  secondaryFont: 'Roboto',
-  highlightFont: 'Montserrat'
+const initialState: BrandConfig = {
+  primaryColor: "#0070f3",
+  secondaryColor: "#f5f5f5",
+  highlightColor: "#ff0080",
+  primaryFont: "Inter",
+  secondaryFont: "Roboto",
+  highlightFont: "Montserrat",
 };
 
 const brandConfigSlice = createSlice({
-  name: 'brandConfig',
+  name: "brandConfig",
   initialState,
   reducers: {
     updatePrimaryColor: (state, action: PayloadAction<string>) => {
@@ -41,10 +33,10 @@ const brandConfigSlice = createSlice({
     updateHighlightFont: (state, action: PayloadAction<string>) => {
       state.highlightFont = action.payload;
     },
-    updateBrandConfig: (state, action: PayloadAction<Partial<BrandConfigState>>) => {
+    updateBrandConfig: (state, action: PayloadAction<Partial<BrandConfig>>) => {
       return { ...state, ...action.payload };
-    }
-  }
+    },
+  },
 });
 
 export const {
@@ -54,7 +46,7 @@ export const {
   updatePrimaryFont,
   updateSecondaryFont,
   updateHighlightFont,
-  updateBrandConfig
+  updateBrandConfig,
 } = brandConfigSlice.actions;
 
 export default brandConfigSlice.reducer;

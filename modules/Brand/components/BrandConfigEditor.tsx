@@ -2,7 +2,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useBrandConfig } from "@/lib/redux/hooks/useBrandConfig";
+import { useBrandConfig } from "@/store/hooks/useBrandConfig";
 import { useRouter } from "next/navigation";
 import React from "react";
 
