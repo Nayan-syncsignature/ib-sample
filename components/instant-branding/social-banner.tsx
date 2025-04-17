@@ -1,50 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-
-// Define prop types for the component
-interface SocialBannerData {
-  heading: string;
-  description: string;
-  imageUrl: string;
-  imageAlt?: string;
-  buttonText: string;
-  communityButtonText?: string;
-  ctaButtonText?: string;
-  backgroundSvg?: string;
-}
-
-interface SocialBannerCommonConfig {
-  width: number;
-  height: number;
-  buttonStyle?: "rounded" | "square";
-  fontSize?: {
-    heading?: string;
-    description?: string;
-    button?: number;
-  };
-  svgConfig?: {
-    svgUrl?: string;
-    svgPosition?: string;
-  }
-  textColor?: string;
-}
-
-// Match the existing BrandConfigState interface
-interface BrandConfig {
-  primaryColor: string;
-  secondaryColor: string;
-  highlightColor: string;
-  primaryFont: string;
-  secondaryFont: string;
-  highlightFont: string;
-}
-
-interface SocialBannerProps {
-  data: SocialBannerData;
-  commonConfig: SocialBannerCommonConfig;
-  brandConfig: BrandConfig;
-  className?: string;
-}
+import { CommonComponetProps } from "../types";
 
 /**
  * A customizable social media banner component
@@ -54,7 +10,7 @@ function SocialBanner({
   commonConfig,
   brandConfig,
   className = "",
-}: SocialBannerProps) {
+}: CommonComponetProps) {
   // Extract values from props for easier access
   const {
     width,
@@ -62,7 +18,10 @@ function SocialBanner({
     fontSize,
     buttonStyle = "square",
     textColor = "white",
-    svgConfig,
+    backdropConfig = {
+      backdropUrl: "https://i.postimg.cc/WbJNvqnF/img.png",
+      backdropPosition: "right center",
+    },
   } = commonConfig;
   const {
     primaryColor,
@@ -81,7 +40,6 @@ function SocialBanner({
     buttonText,
     communityButtonText = "JOIN OUR COMMUNITY",
     ctaButtonText = "Start Free Trial",
-    backgroundSvg,
   } = data;
 
   return (
@@ -96,50 +54,61 @@ function SocialBanner({
       <div
         className="absolute right-0 w-full h-full"
         style={{
-          backgroundImage: `url(${svgConfig?.svgUrl})`,
+          backgroundImage: `url(${backdropConfig?.backdropUrl})`,
           backgroundSize: "contain",
-          backgroundPosition: `${svgConfig?.svgPosition}`,
+          backgroundPosition: `${backdropConfig?.backdropPosition}`,
           backgroundRepeat: "no-repeat",
         }}
       />
       <div className="relative grid grid-cols-[20%_60%_20%]">
         {/* JOIN OUR COMMUNITY button at top left */}
-        <div className={`font-${secondaryFont} pl-[40px] pt-[40px]`}>
+        <div className={`pl-[40px] pt-[40px]`} 
+          style={{fontFamily: secondaryFont,}}
+        >
           <div
-            className={`font-${secondaryFont} py-[10px] px-[16px] text-[16px] w-[231px] h-[44px] ${
+            className={`py-[10px] px-[16px] text-[16px] w-[231px] h-[44px] ${
               buttonStyle === "rounded" ? "rounded-md" : "rounded-none"
             }`}
-            style={{ backgroundColor: secondaryColor, color: textColor }}
+            style={{ backgroundColor: secondaryColor, color: textColor, fontFamily: secondaryFont,}}
           >
             {communityButtonText}
           </div>
         </div>
 
         {/* Main content container with fixed width */}
-        <div className="justify-center h-[195.15px] w-[837px] my-auto grid grid-cols-[60%_40%] gap-[32px]">
+        <div className="justify-center h-[199.15px] w-[837px] my-auto grid grid-cols-[60%_40%] gap-[32px]">
           {/* Left content area - titles */}
           <div
-            className={`h-[130px] tracking-[-.05em] font-${primaryFont} leading-[100%] font-semibold  text-${textColor} text-right`}
+            className={`h-[130px] tracking-[-.05em] leading-[100%] font-semibold   text-right`}
             style={{
-              fontSize: `${fontSize?.heading}`
+              fontSize: `${fontSize?.heading}`,
+              fontFamily: secondaryFont,
+              color: textColor,
             }}
           >
             {heading}
           </div>
 
           {/* Right content area - sub-titles */}
-          <div className="grid grid-rows-[70%_30%]">
+          <div className="grid grid-rows-[65%_35%] w-[342px] h-[199px]">
             <div
-              className={`align-left text-${fontSize?.description} font-${secondaryFont} tracking-[-.05em] leading-[100%] font-normal text-${textColor}`}
+              className={`text-left w-[342px] h-[118px] tracking-[-0.05em] leading-[100%] font-normal`}
+              style={{
+                fontSize: `${fontSize?.description}`,
+                fontFamily: secondaryFont,
+                color: textColor,
+              }}
             >
               {description}
             </div>
             <div className="flex items-end">
               <div
-                className={`font-${highlightFont} p-[14.08px] tracking-[-.05em] leading-[100%] text-[24.63px] font-semibold h-[45.15px] w-[184.15px] ${
-                  buttonStyle === "rounded" ? "rounded-md" : "rounded-none"
-                }`}
-                style={{ backgroundColor: highlightColor, color: textColor }}
+                className={`text-center p-[14.08px] tracking-[-.05em] leading-[100%] text-[24.63px] font-semibold h-[49px] w-[188px]`}
+                style={{ 
+                  backgroundColor: highlightColor,
+                  color: textColor,
+                  fontFamily: highlightFont,
+                  borderRadius: (buttonStyle === "rounded") ? "6px" : "0px"}}
               >
                 {ctaButtonText}
               </div>

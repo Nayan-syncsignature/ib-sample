@@ -1,14 +1,17 @@
 // lib/redux/rootReducer.ts
 import { combineReducers } from '@reduxjs/toolkit';
 import brandConfigReducer from './slices/brandConfigSlice';
-import canvasDimensionsReducer from './slices/commonConfig';
+import commonConfigReducer from './slices/commonConfig';
+import dataReducer from './slices/dataSlice';
+
 // Import other reducers here as you create them
 // import userProfileReducer from './slices/userProfileSlice';
 
 // Combine all feature reducers into a single root reducer
 const rootReducer = combineReducers({
     brandConfig: brandConfigReducer,
-    canvasDimensions: canvasDimensionsReducer,
+    commonConfig: commonConfigReducer,
+    data: dataReducer,
     // Add other reducers here:
     // userProfile: userProfileReducer,
 });
