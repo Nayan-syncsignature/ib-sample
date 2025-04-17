@@ -100,6 +100,8 @@ const BrandConfigEditor: React.FC = () => {
               <option value="Open Sans">Open Sans</option>
               <option value="Montserrat">Montserrat</option>
               <option value="Lato">Lato</option>
+              <option value="DM Sans">DM Sans</option>
+              <option value="Public Sans">Public Sans</option>
             </select>
           </div>
 
@@ -118,6 +120,8 @@ const BrandConfigEditor: React.FC = () => {
               <option value="Open Sans">Open Sans</option>
               <option value="Montserrat">Montserrat</option>
               <option value="Lato">Lato</option>
+              <option value="DM Sans">DM Sans</option>
+              <option value="Public Sans">Public Sans</option>
             </select>
           </div>
 
@@ -136,6 +140,8 @@ const BrandConfigEditor: React.FC = () => {
               <option value="Open Sans">Open Sans</option>
               <option value="Montserrat">Montserrat</option>
               <option value="Lato">Lato</option>
+              <option value="DM Sans">DM Sans</option>
+              <option value="Public Sans">Public Sans</option>
             </select>
           </div>
         </div>

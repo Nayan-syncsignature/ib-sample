@@ -1,9 +1,5 @@
-// BEFORE: import debounce from "lodash";
-// AFTER:
-import debounce from "lodash/debounce"; // Import debounce specifically
-
 import { filterDimensionsByType } from "@/common/constants/platforms-dimensions-map";
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect } from "react";
 import { CanvasProps } from "../Canvas/Canvas";
 import {
   Select,
@@ -24,8 +20,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-// Button import might be unused now, but keep it if needed elsewhere
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,7 +29,7 @@ import { useCommonConfig } from "@/lib/redux/hooks/useCommonConfig";
 import { useDataConfig } from "@/lib/redux/hooks/useDataConfig";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -44,8 +39,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Data } from "@/components/types";
 
-// Define Zod schema for form validation (remains the same)
+// Define Zod schema for form validation
 const formSchema = z.object({
   heading: z
     .string()
@@ -54,48 +50,42 @@ const formSchema = z.object({
   subHeading: z
     .string()
     .max(200, "Sub-heading must be less than 200 characters")
-    .optional()
-    .nullable(), // Consider nullable if the value can be null from backend/reset
+    .optional(),
   description: z
     .string()
     .max(500, "Description must be less than 500 characters")
-    .optional()
-    .nullable(),
+    .optional(),
   imageUrl: z
     .string()
     .url("Please enter a valid URL")
     .optional()
-    .or(z.literal("")) // Allow empty string
-    .nullable(),
+    .or(z.literal("")),
   imageAlt: z
     .string()
     .max(100, "Image alt text must be less than 100 characters")
-    .optional()
-    .nullable(),
+    .optional(),
   buttonText: z
     .string()
     .max(50, "Button text must be less than 50 characters")
-    .optional()
-    .nullable(),
+    .optional(),
   communityButtonText: z
     .string()
     .max(50, "Community button text must be less than 50 characters")
-    .optional()
-    .nullable(),
+    .optional(),
   ctaButtonText: z
     .string()
     .max(50, "CTA button text must be less than 50 characters")
-    .optional()
-    .nullable(),
+    .optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-const DEBOUNCE_DELAY = 1; // Debounce updates by 300ms
-
 const ControlPanel = ({ type }: CanvasProps) => {
   const {
-    updateConfig, // updateWidth/Height might be redundant if updateConfig handles them
+    commonConfig,
+    updateConfig,
+    updateWidth,
+    updateHeight,
     width,
     height,
   } = useCommonConfig();
@@ -104,114 +94,75 @@ const ControlPanel = ({ type }: CanvasProps) => {
 
   const filteredDimensions = filterDimensionsByType(type);
 
-  const defaultPlatform =
-    filteredDimensions.find(
-      (dim) => dim.width === width && dim.height === height
-    )?.platform || filteredDimensions[0]?.platform;
-
-  const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      // Ensure defaultValues align with potential nulls if added to schema
-      heading: data.heading || "",
-      subHeading: data.subHeading || "",
-      description: data.description || "",
-      imageUrl: data.imageUrl || "",
-      imageAlt: data.imageAlt || "",
-      buttonText: data.buttonText || "",
-      communityButtonText: data.communityButtonText || "",
-      ctaButtonText: data.ctaButtonText || "",
-    },
-  });
-
-  const watchedValues = useWatch({ control: form.control });
-  const isInitialMount = useRef(true);
-
-  // Debounced update function
-  // Use useCallback to memoize the debounced function itself.
-  // The dependency array should include `updateContent` because it's used inside.
-  const debouncedUpdateContent = useCallback(
-    debounce((values: FormValues) => {
-      // console.log("Debounced Update:", values);
-      // Ensure we don't pass undefined where strings are expected by updateContent
-      const validatedValues = formSchema.safeParse(values);
-      if (validatedValues.success) {
-        updateContent(validatedValues.data); // Send validated/cleaned data
-      } else {
-        // Handle validation error if needed, though RHF usually prevents this stage
-        console.error(
-          "Debounce validation failed (should be rare):",
-          validatedValues.error
-        );
-      }
-    }, DEBOUNCE_DELAY),
-    [updateContent, formSchema] // updateContent is the external dependency used inside debounce
-    // formSchema added if used inside for validation
+  // Find default platform based on current dimensions
+  const defaultPlatform = filteredDimensions[0]?.platform;
+  const defaultDimensions = filteredDimensions.find(
+    (dim) => dim.platform === defaultPlatform
   );
 
+  const defaultValues = {
+    heading: data.heading || "",
+    subHeading: data.subHeading || "",
+    description: data.description || "",
+    imageUrl: data.imageUrl || "",
+    imageAlt: data.imageAlt || "",
+    buttonText: data.buttonText || "",
+    communityButtonText: data.communityButtonText || "",
+    ctaButtonText: data.ctaButtonText || "",
+  };
+
+  // Initialize form with React Hook Form + Zod
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues,
+  });
+
+  // Handle form value changes to update content
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
-
-    // Check if watchedValues are actually valid before debouncing
-    // This prevents sending partially invalid state during rapid typing if validation fails momentarily
-    const result = formSchema.safeParse(watchedValues);
-    if (result.success) {
-      debouncedUpdateContent(result.data);
-    }
-    // If not successful, RHF validation messages should handle user feedback
-
-    return () => {
-      // This cancel method exists on the function returned by lodash debounce
-      debouncedUpdateContent.cancel();
-    };
-    // Add formSchema if used inside the effect/debounce directly
-  }, [watchedValues, debouncedUpdateContent, formSchema]);
-
-  useEffect(() => {
-    const currentPlatform = filteredDimensions.find(
-      (dim) => dim.width === width && dim.height === height
-    );
-    if (!currentPlatform && defaultPlatform) {
-      const defaultDim = filteredDimensions.find(
-        (d) => d.platform === defaultPlatform
-      );
-      if (defaultDim) {
-        updateConfig({ width: defaultDim.width, height: defaultDim.height });
+    // Create a handler function for form changes
+    const handleFormChange = (values: Data) => {
+      if (values) {
+        updateContent(values as FormValues);
       }
+    };
+
+    // Setup the subscription
+    const subscription = form.watch(handleFormChange);
+
+    // Clean up subscription on unmount
+    return () => subscription.unsubscribe();
+  }, [form, updateContent]);
+
+  // Handle external data changes
+  useEffect(() => {
+    // Compare current form values with data
+    const currentValues = form.getValues();
+    const dataStr = JSON.stringify(data);
+    const valuesStr = JSON.stringify(currentValues);
+
+    // Only reset form if data actually changed and form isn't being edited
+    if (dataStr !== valuesStr && !form.formState.isDirty) {
+      form.reset({
+        heading: data.heading || "",
+        subHeading: data.subHeading || "",
+        description: data.description || "",
+        imageUrl: data.imageUrl || "",
+        imageAlt: data.imageAlt || "",
+        buttonText: data.buttonText || "",
+        communityButtonText: data.communityButtonText || "",
+        ctaButtonText: data.ctaButtonText || "",
+      });
     }
-    // Removed width, height from deps to avoid loop if updateConfig causes re-render
-    // Check if type/defaultPlatform are sufficient triggers
-  }, [type, defaultPlatform, filteredDimensions, updateConfig]);
+  }, [data, form, defaultValues]);
 
   useEffect(() => {
-    // Use form's internal state vs Redux data for comparison
-    const currentFormValues = form.getValues();
-    // Basic stringify comparison (consider deep comparison library for complex objects if needed)
-    if (JSON.stringify(currentFormValues) !== JSON.stringify(data)) {
-      // console.log("External data change detected, resetting form.", data);
-      form.reset(
-        {
-          // Reset with data, ensuring fallback for null/undefined
-          heading: data.heading || "",
-          subHeading: data.subHeading || "",
-          description: data.description || "",
-          imageUrl: data.imageUrl || "",
-          imageAlt: data.imageAlt || "",
-          buttonText: data.buttonText || "",
-          communityButtonText: data.communityButtonText || "",
-          ctaButtonText: data.ctaButtonText || "",
-        },
-        {
-          // Keep state options if needed, e.g., keep errors, keep dirty state etc.
-          // keepValues: false // default, replaces all values
-        }
-      );
+    if (defaultDimensions) {
+      updateConfig({
+        width: defaultDimensions?.width,
+        height: defaultDimensions?.height,
+      });
     }
-    // form.reset is stable, data is the dependency
-  }, [data, form]); // form object itself is stable, form.reset is stable
+  }, []);
 
   const handlePlatformChange = (platformName: string) => {
     const selectedPlatform = filteredDimensions.find(
@@ -226,16 +177,19 @@ const ControlPanel = ({ type }: CanvasProps) => {
     }
   };
 
+  const onSubmit = (values: FormValues) => {
+    updateContent(values);
+  };
+
   return (
-    <div className="flex flex-col h-full border-l border-gray-200 bg-white">
+    <div className="flex flex-col h-full border-l border-gray-200">
       <div className="p-4 border-b flex items-center justify-between bg-gray-50">
         <h3 className="font-semibold text-gray-800 flex items-center gap-2">
           <Settings size={18} />
           Control Panel
         </h3>
         <div className="text-sm text-gray-500">
-          {width || "-"} × {height || "-"}px{" "}
-          {/* Handle initial undefined state */}
+          {width} × {height}px
         </div>
       </div>
 
@@ -250,10 +204,10 @@ const ControlPanel = ({ type }: CanvasProps) => {
           </Label>
 
           <Select
-            value={defaultPlatform || ""} // Controlled component needs a valid value
+            defaultValue={defaultPlatform}
             onValueChange={handlePlatformChange}
           >
-            <SelectTrigger className="w-full bg-white" id="platform-select">
+            <SelectTrigger className="w-full bg-white">
               <SelectValue placeholder="Select platform dimensions" />
             </SelectTrigger>
             <SelectContent>
@@ -271,9 +225,9 @@ const ControlPanel = ({ type }: CanvasProps) => {
 
         <Separator className="my-4" />
 
+        {/* Content Fields Form */}
         <Form {...form}>
-          {/* No explicit form tag or onSubmit needed for real-time updates */}
-          <div className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             {/* Heading Field */}
             <Card className="border rounded-md shadow-sm overflow-hidden">
               <CardHeader className="p-3 flex flex-row items-center justify-between border-b bg-gray-50">
@@ -319,10 +273,6 @@ const ControlPanel = ({ type }: CanvasProps) => {
                       <FormControl>
                         <Textarea
                           {...field}
-                          // Handle potential null/undefined from RHF state
-                          // RHF usually ensures it's a string or undefined based on schema
-                          // Adding || '' ensures it's always a string for the textarea prop
-                          value={field.value ?? ""}
                           className="resize-none border rounded-md"
                           placeholder="Enter sub-heading text"
                         />
@@ -351,7 +301,6 @@ const ControlPanel = ({ type }: CanvasProps) => {
                       <FormControl>
                         <Textarea
                           {...field}
-                          value={field.value ?? ""}
                           className="resize-none border rounded-md"
                           placeholder="Enter description text"
                           rows={3}
@@ -382,10 +331,8 @@ const ControlPanel = ({ type }: CanvasProps) => {
                       <FormControl>
                         <Input
                           {...field}
-                          value={field.value ?? ""}
                           placeholder="https://example.com/image.jpg"
                           className="border rounded-md"
-                          type="url" // Use type url for basic browser validation
                         />
                       </FormControl>
                       <FormMessage />
@@ -402,7 +349,6 @@ const ControlPanel = ({ type }: CanvasProps) => {
                       <FormControl>
                         <Input
                           {...field}
-                          value={field.value ?? ""}
                           placeholder="Descriptive text for the image"
                           className="border rounded-md"
                         />
@@ -435,7 +381,6 @@ const ControlPanel = ({ type }: CanvasProps) => {
                       <FormControl>
                         <Input
                           {...field}
-                          value={field.value ?? ""}
                           placeholder="Get Started"
                           className="border rounded-md"
                         />
@@ -459,7 +404,6 @@ const ControlPanel = ({ type }: CanvasProps) => {
                       <FormControl>
                         <Input
                           {...field}
-                          value={field.value ?? ""}
                           placeholder="Join Community"
                           className="border rounded-md"
                         />
@@ -483,7 +427,6 @@ const ControlPanel = ({ type }: CanvasProps) => {
                       <FormControl>
                         <Input
                           {...field}
-                          value={field.value ?? ""}
                           placeholder="Learn More"
                           className="border rounded-md"
                         />
@@ -495,8 +438,17 @@ const ControlPanel = ({ type }: CanvasProps) => {
               </CardContent>
             </Card>
 
-            {/* Save/Reset buttons remain commented out */}
-          </div>
+            <div className="flex justify-end space-x-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => form.reset()}
+              >
+                Reset
+              </Button>
+              <Button type="submit">Save Changes</Button>
+            </div>
+          </form>
         </Form>
       </div>
     </div>
