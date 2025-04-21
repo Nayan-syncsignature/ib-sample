@@ -37,10 +37,6 @@ export default function SocialMediaBannerPage() {
       button: 20,
     },
     textColor: "white",
-    svgConfig: {
-      svgUrl: 'https://i.postimg.cc/WbJNvqnF/img.png',
-      svgPosition: "right center"
-    }
   };
   return (
     <div>

@@ -49,7 +49,14 @@ const BrandConfigEditor: React.FC = () => {
               onChange={(e) => setPrimaryColor(e.target.value)}
               className="h-10 w-20"
             />
-            <span>{primaryColor}</span>
+            <input
+              type="text"
+              value={primaryColor}
+              onChange={(e) => setPrimaryColor(e.target.value)}
+              className="h-10 w-24 px-2 border rounded text-sm"
+              placeholder="#000000"
+              maxLength={7}
+            />
           </div>
 
           <div className="flex items-center gap-4">
@@ -63,7 +70,14 @@ const BrandConfigEditor: React.FC = () => {
               onChange={(e) => setSecondaryColor(e.target.value)}
               className="h-10 w-20"
             />
-            <span>{secondaryColor}</span>
+            <input
+              type="text"
+              value={secondaryColor}
+              onChange={(e) => setSecondaryColor(e.target.value)}
+              className="h-10 w-24 px-2 border rounded text-sm"
+              placeholder="#000000"
+              maxLength={7}
+            />
           </div>
 
           <div className="flex items-center gap-4">
@@ -77,7 +91,14 @@ const BrandConfigEditor: React.FC = () => {
               onChange={(e) => setHighlightColor(e.target.value)}
               className="h-10 w-20"
             />
-            <span>{highlightColor}</span>
+            <input
+              type="text"
+              value={highlightColor}
+              onChange={(e) => setHighlightColor(e.target.value)}
+              className="h-10 w-24 px-2 border rounded text-sm"
+              placeholder="#000000"
+              maxLength={7}
+            />
           </div>
         </div>
 
