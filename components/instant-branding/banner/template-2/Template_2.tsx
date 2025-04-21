@@ -1,11 +1,13 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { CommonComponetProps } from "../../../types";
+import { EllipseSvg } from "@/public/background-svgs";
+import Image from "next/image";
 
 /**
  * A customizable social media banner component
  */
-function SocialBannerTemplate1({
+function SocialBannerTemplate2({
   data,
   commonConfig,
   brandConfig,
@@ -18,7 +20,6 @@ function SocialBannerTemplate1({
     primaryColor,
     secondaryColor,
     highlightColor,
-    primaryFont,
     secondaryFont,
     highlightFont,
   } = brandConfig;
@@ -39,7 +40,7 @@ function SocialBannerTemplate1({
         className
       )}
     >
-      <div
+      {/* <div
         className="absolute right-0 w-full h-full"
         style={{
           backgroundImage: `url(${backdropConfig?.backdropUrl})`,
@@ -47,6 +48,12 @@ function SocialBannerTemplate1({
           backgroundPosition: `${backdropConfig?.backdropPosition}`,
           backgroundRepeat: "no-repeat",
         }}
+      /> */}
+      <Image
+        className="absolute right-0 w-full h-full object-right "
+        priority
+        src={EllipseSvg}
+        alt="Background pattern"
       />
       <div className="relative grid grid-cols-[20%_60%_20%]">
         {/* JOIN OUR COMMUNITY button at top left */}
@@ -130,7 +137,7 @@ function SocialBannerTemplate1({
         {/* Right side - Headshot with light effect */}
         <div className="relative h-full overflow-hidden rounded-lg">
           {/* Headshot image */}
-          <img
+          {/* <img
             src={imageUrl}
             alt={imageAlt}
             className="object-cover object-right"
@@ -140,11 +147,11 @@ function SocialBannerTemplate1({
               top: "-60px",
               left: "-60px",
             }}
-          />
+          /> */}
         </div>
       </div>
     </div>
   );
 }
 
-export default SocialBannerTemplate1;
+export default SocialBannerTemplate2;

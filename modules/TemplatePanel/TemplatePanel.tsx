@@ -1,14 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { ArrowDown, Copy, MoreHorizontal } from "lucide-react";
-import { linkedInBannerTemplates } from "./banner-data";
-import SocialBanner from "./SocialBanner";
+import SocialBannerTemplate1 from "@/components/instant-branding/banner/template-1";
+import { styles } from "@/components/instant-branding/banner/template-1/styles";
+import { useBrandConfig } from "@/store/hooks/useBrandConfig";
 
 const TemplatePanel = () => {
-  const [selectedTemplate, setSelectedTemplate] = useState<number | null>(3);
+  const { brandConfig } = useBrandConfig();
 
   return (
     <div className="flex flex-col h-screen bg-zinc-950 p-4">
@@ -30,13 +29,14 @@ const TemplatePanel = () => {
       </div>
 
       {/* Template Cards */}
-      <div className="flex flex-col gap-4 overflow-auto">
-        {linkedInBannerTemplates.map((banner) => (
-          <SocialBanner
-            key={banner.id}
-            {...banner}
-            selected={selectedTemplate === banner.id}
-            onClick={() => setSelectedTemplate(banner.id)}
+      <div className="flex flex-col overflow-auto">
+        {styles.map(({ template_key, commonConfig, data }) => (
+          <SocialBannerTemplate1
+            key={template_key}
+            commonConfig={commonConfig}
+            data={data}
+            brandConfig={brandConfig}
+            className=""
           />
         ))}
       </div>

@@ -1,8 +1,8 @@
 import { Check, X } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import SocialBanner from "@/components/instant-branding/social-banner";
 import type { CommonComponetProps } from "@/components/types";
+import SocialBannerTemplate1 from "@/components/instant-branding/banner/template-1";
 
 export default function LinkedInProfileMockup({
   data,
@@ -16,7 +16,7 @@ export default function LinkedInProfileMockup({
         {/* Banner Section */}
         <div className="relative">
           {/* Using the SocialBanner component as in the original code */}
-          <SocialBanner
+          <SocialBannerTemplate1
             data={data}
             commonConfig={commonConfig}
             brandConfig={brandConfig}
