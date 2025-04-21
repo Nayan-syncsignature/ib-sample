@@ -1,11 +1,11 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { CommonComponetProps } from "../types";
+import { CommonComponetProps } from "../../../types";
 
 /**
  * A customizable social media banner component
  */
-function SocialBanner({
+function SocialBannerTemplate1({
   data,
   commonConfig,
   brandConfig,
@@ -16,12 +16,9 @@ function SocialBanner({
     width,
     height,
     fontSize,
-    buttonStyle = "square",
-    textColor = "white",
-    backdropConfig = {
-      backdropUrl: "https://i.postimg.cc/WbJNvqnF/img.png",
-      backdropPosition: "right center",
-    },
+    buttonStyle,
+    textColor,
+    backdropConfig
   } = commonConfig;
   const {
     primaryColor,
@@ -36,10 +33,10 @@ function SocialBanner({
     heading,
     description,
     imageUrl,
-    imageAlt = "Profile image",
+    imageAlt,
     buttonText,
-    communityButtonText = "JOIN OUR COMMUNITY",
-    ctaButtonText = "Start Free Trial",
+    communityButtonText,
+    ctaButtonText,
   } = data;
 
   const middlecontentCSS = heading 
@@ -147,4 +144,4 @@ function SocialBanner({
   );
 }
 
-export default SocialBanner;
+export default SocialBannerTemplate1;
