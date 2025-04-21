@@ -1,6 +1,7 @@
 // src/components/BrandConfigEditor.tsx
 "use client";
 
+import ColorPickerPopup from "@/components/ColorPicker";
 import { Button } from "@/components/ui/button";
 import { useBrandConfig } from "@/store/hooks/useBrandConfig";
 import { useRouter } from "next/navigation";
@@ -39,45 +40,33 @@ const BrandConfigEditor: React.FC = () => {
           <h3 className="text-lg font-semibold">Colors</h3>
 
           <div className="flex items-center gap-4">
-            <label htmlFor="primaryColor" className="min-w-32">
-              Primary Color:
-            </label>
-            <input
-              type="color"
-              id="primaryColor"
-              value={primaryColor}
-              onChange={(e) => setPrimaryColor(e.target.value)}
-              className="h-10 w-20"
+            <label className="min-w-32">Primary Color:</label>
+            <ColorPickerPopup
+              color={primaryColor}
+              setColor={setPrimaryColor}
+              label="Primary"
             />
-            <span>{primaryColor}</span>
+            <span className="ml-2">{primaryColor}</span>
           </div>
 
           <div className="flex items-center gap-4">
-            <label htmlFor="secondaryColor" className="min-w-32">
-              Secondary Color:
-            </label>
-            <input
-              type="color"
-              id="secondaryColor"
-              value={secondaryColor}
-              onChange={(e) => setSecondaryColor(e.target.value)}
-              className="h-10 w-20"
+            <label className="min-w-32">Secondary Color:</label>
+            <ColorPickerPopup
+              color={secondaryColor}
+              setColor={setSecondaryColor}
+              label="Secondary"
             />
-            <span>{secondaryColor}</span>
+            <span className="ml-2">{secondaryColor}</span>
           </div>
 
           <div className="flex items-center gap-4">
-            <label htmlFor="highlightColor" className="min-w-32">
-              Highlight Color:
-            </label>
-            <input
-              type="color"
-              id="highlightColor"
-              value={highlightColor}
-              onChange={(e) => setHighlightColor(e.target.value)}
-              className="h-10 w-20"
+            <label className="min-w-32">Highlight Color:</label>
+            <ColorPickerPopup
+              color={highlightColor}
+              setColor={setHighlightColor}
+              label="Highlight"
             />
-            <span>{highlightColor}</span>
+            <span className="ml-2">{highlightColor}</span>
           </div>
         </div>
 

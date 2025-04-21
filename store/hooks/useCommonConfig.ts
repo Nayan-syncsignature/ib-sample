@@ -1,5 +1,5 @@
 // lib/redux/hooks/useCommonConfig.ts
-import { useAppSelector, useAppDispatch } from '../typedHooks';
+import { useAppSelector, useAppDispatch } from "../typedHooks";
 import {
   setDimensions,
   setWidth,
@@ -15,11 +15,11 @@ import {
   toggleUnderline,
   setTextContent,
   resetDimensions,
-  CommonConfig
-} from '../slices/commonConfig';
+} from "../slices/commonConfigSlice";
+import { CommonConfig } from "@/components/types";
 
 export const useCommonConfig = () => {
-  const commonConfig = useAppSelector(state => state.commonConfig);
+  const commonConfig = useAppSelector((state) => state.commonConfig);
   const dispatch = useAppDispatch();
 
   // Set multiple configuration options at once
@@ -121,6 +121,6 @@ export const useCommonConfig = () => {
     updateButtonStyle,
     updateFontSize,
     updateBackdropConfig,
-    reset
+    reset,
   };
 };

@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import { useBrandConfig } from "@/store/hooks/useBrandConfig";
-import { Image } from "lucide-react";
 import SocialBanner from "@/components/instant-branding/social-banner";
 import { CommonComponetProps } from "@/components/types";
+import LinkedInProfileMockup from "./components/LinkedinProfileMockup";
 
 export default function SocialBannerWrapper({
   data,
@@ -15,18 +14,17 @@ export default function SocialBannerWrapper({
     <div
       style={{
         transform: "scale(.7)",
-        transformOrigin: "top left",
         width: "fit-content",
         height: "fit-content",
       }}
     >
-      <SocialBanner
+      <LinkedInProfileMockup
         data={data}
         commonConfig={commonConfig}
-        brandConfig={brandConfig} // Uses brandConfig directly from Redux hook
+        brandConfig={brandConfig} 
       />
 
-      <div className="mt-8 bg-gray-50 p-4 rounded-lg">
+      {/* <div className="mt-8 bg-gray-50 p-4 rounded-lg">
         <h2 className="text-xl font-semibold mb-2">Current Configuration</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -36,7 +34,7 @@ export default function SocialBannerWrapper({
             </pre>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

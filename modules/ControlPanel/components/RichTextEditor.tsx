@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+ import React, {
+  useState,
+  useRef,
+  useEffect,
+  ChangeEvent,
+  KeyboardEvent,
+} from "react";
 import {
   Bold,
   Italic,
@@ -14,30 +20,51 @@ import {
   RotateCw,
 } from "lucide-react";
 
+// Type definitions
+interface EnhancedRichTextEditorProps {
+  initialContent?: string;
+  onContentChange?: (content: string, fieldName: string) => void;
+  fieldName?: string;
+  label?: string;
+  height?: string;
+  showPreviewByDefault?: boolean;
+}
+
+interface HighlightColor {
+  name: string;
+  color: string;
+}
+
+interface StyledHighlight {
+  name: string;
+  style: string;
+  extraClass?: string;
+}
+
 // Enhanced RichTextEditor with prop support for external state management
-const EnhancedRichTextEditor = ({
+const RichTextEditor = ({
   initialContent = "<div>Your text here</div>",
   onContentChange,
   fieldName = "",
   label = "Rich Text Editor",
   height = "200px",
   showPreviewByDefault = true,
-}) => {
-  const editorRef = useRef(null);
-  const [editorContent, setEditorContent] = useState(initialContent);
-  const [showPreview, setShowPreview] = useState(showPreviewByDefault);
-  const [history, setHistory] = useState([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
-  const [isUndoRedo, setIsUndoRedo] = useState(false);
+}: EnhancedRichTextEditorProps) => {
+  const editorRef = useRef<HTMLDivElement | null>(null);
+  const [editorContent, setEditorContent] = useState<string>(initialContent);
+  const [showPreview, setShowPreview] = useState<boolean>(showPreviewByDefault);
+  const [history, setHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState<number>(-1);
+  const [isUndoRedo, setIsUndoRedo] = useState<boolean>(false);
 
-  const [currentFontFamily, setCurrentFontFamily] = useState("Arial");
-  const [currentFontSize, setCurrentFontSize] = useState("24px");
-  const [currentTextColor, setCurrentTextColor] = useState("#000000");
+  const [currentFontFamily, setCurrentFontFamily] = useState<string>("Arial");
+  const [currentFontSize, setCurrentFontSize] = useState<string>("24px");
+  const [currentTextColor, setCurrentTextColor] = useState<string>("#000000");
   const [currentHighlightColor, setCurrentHighlightColor] =
-    useState("transparent");
+    useState<string>("transparent");
 
   // Text colors
-  const colors = [
+  const colors: string[] = [
     "#000000",
     "#FFFFFF",
     "#FF0000",
@@ -53,7 +80,7 @@ const EnhancedRichTextEditor = ({
   ];
 
   // Basic highlight colors
-  const highlightColors = [
+  const highlightColors: HighlightColor[] = [
     { name: "Yellow", color: "#FFFF00" },
     { name: "Pink", color: "#FFACAC" },
     { name: "Green", color: "#ACFFAC" },
@@ -63,7 +90,7 @@ const EnhancedRichTextEditor = ({
   ];
 
   // Styled highlights
-  const styledHighlights = [
+  const styledHighlights: StyledHighlight[] = [
     {
       name: "Gradient",
       style:
@@ -87,7 +114,7 @@ const EnhancedRichTextEditor = ({
     { name: "Marker", style: "linear-gradient(transparent 60%, #ffff00 40%)" },
   ];
 
-  const fontSizes = [
+  const fontSizes: string[] = [
     "12px",
     "14px",
     "16px",
@@ -100,7 +127,7 @@ const EnhancedRichTextEditor = ({
     "48px",
   ];
 
-  const fontFamilies = [
+  const fontFamilies: string[] = [
     "Arial",
     "Verdana",
     "Helvetica",
@@ -114,7 +141,7 @@ const EnhancedRichTextEditor = ({
   ];
 
   // Save current state to history
-  const saveToHistory = () => {
+  const saveToHistory = (): void => {
     if (editorRef.current && !isUndoRedo) {
       const newContent = editorRef.current.innerHTML;
 
@@ -134,7 +161,7 @@ const EnhancedRichTextEditor = ({
   };
 
   // Update the editor content and preview
-  const updateEditorContent = () => {
+  const updateEditorContent = (): void => {
     if (editorRef.current) {
       const content = editorRef.current.innerHTML;
       setEditorContent(content);
@@ -147,7 +174,7 @@ const EnhancedRichTextEditor = ({
   };
 
   // Handle undo
-  const handleUndo = () => {
+  const handleUndo = (): void => {
     if (historyIndex > 0) {
       setIsUndoRedo(true);
       const newIndex = historyIndex - 1;
@@ -163,7 +190,7 @@ const EnhancedRichTextEditor = ({
   };
 
   // Handle redo
-  const handleRedo = () => {
+  const handleRedo = (): void => {
     if (historyIndex < history.length - 1) {
       setIsUndoRedo(true);
       const newIndex = historyIndex + 1;
@@ -179,7 +206,10 @@ const EnhancedRichTextEditor = ({
   };
 
   // Apply formatting command
-  const execFormatCommand = (command, value = null) => {
+  const execFormatCommand = (
+    command: string,
+    value: string | null = null
+  ): void => {
     if (editorRef.current) {
       // Focus the editor
       editorRef.current.focus();
@@ -188,7 +218,7 @@ const EnhancedRichTextEditor = ({
       saveToHistory();
 
       // Execute command
-      document.execCommand(command, false, value);
+      document.execCommand(command, false, value ?? "");
 
       // Update preview
       updateEditorContent();
@@ -196,28 +226,28 @@ const EnhancedRichTextEditor = ({
   };
 
   // Simple formatting functions
-  const applyBold = () => execFormatCommand("bold");
-  const applyItalic = () => execFormatCommand("italic");
-  const applyUnderline = () => execFormatCommand("underline");
-  const applyAlignLeft = () => execFormatCommand("justifyLeft");
-  const applyAlignCenter = () => execFormatCommand("justifyCenter");
-  const applyAlignRight = () => execFormatCommand("justifyRight");
+  const applyBold = (): void => execFormatCommand("bold");
+  const applyItalic = (): void => execFormatCommand("italic");
+  const applyUnderline = (): void => execFormatCommand("underline");
+  const applyAlignLeft = (): void => execFormatCommand("justifyLeft");
+  const applyAlignCenter = (): void => execFormatCommand("justifyCenter");
+  const applyAlignRight = (): void => execFormatCommand("justifyRight");
 
   // Apply text color
-  const applyTextColor = (color) => {
+  const applyTextColor = (color: string): void => {
     setCurrentTextColor(color);
     execFormatCommand("foreColor", color);
   };
 
   // Apply font family
-  const applyFontFamily = (e) => {
+  const applyFontFamily = (e: ChangeEvent<HTMLSelectElement>): void => {
     const fontFamily = e.target.value;
     setCurrentFontFamily(fontFamily);
     execFormatCommand("fontName", fontFamily);
   };
 
   // Apply font size
-  const applyFontSize = (e) => {
+  const applyFontSize = (e: ChangeEvent<HTMLSelectElement>): void => {
     const fontSize = e.target.value;
     setCurrentFontSize(fontSize);
 
@@ -231,11 +261,16 @@ const EnhancedRichTextEditor = ({
     else if (fontSize === "32px") sizeIndex = 6;
     else if (fontSize === "48px") sizeIndex = 7;
 
-    execFormatCommand("fontSize", sizeIndex);
+    execFormatCommand("fontSize", sizeIndex.toString());
   };
 
+  interface SelectionInfo {
+    selection: Selection;
+    range: Range;
+  }
+
   // Get selection and range
-  const getSelectionInfo = () => {
+  const getSelectionInfo = (): SelectionInfo | null => {
     const selection = window.getSelection();
     if (!selection || selection.rangeCount === 0) return null;
 
@@ -245,16 +280,16 @@ const EnhancedRichTextEditor = ({
   };
 
   // Find highlight parent of a node
-  const findHighlightParent = (node) => {
-    let current = node;
+  const findHighlightParent = (node: Node): HTMLElement | null => {
+    let current: Node | null = node;
 
     while (current && current !== editorRef.current) {
       if (
         current.nodeType === 1 &&
-        current.tagName === "SPAN" &&
-        current.hasAttribute("data-highlight")
+        (current as HTMLElement).tagName === "SPAN" &&
+        (current as HTMLElement).hasAttribute("data-highlight")
       ) {
-        return current;
+        return current as HTMLElement;
       }
       current = current.parentNode;
     }
@@ -263,14 +298,16 @@ const EnhancedRichTextEditor = ({
   };
 
   // Apply basic highlight
-  const applyHighlight = (color) => {
+  const applyHighlight = (color: string): void => {
     const selInfo = getSelectionInfo();
     if (!selInfo) return;
 
     const { selection, range } = selInfo;
 
     // Focus editor
-    editorRef.current.focus();
+    if (editorRef.current) {
+      editorRef.current.focus();
+    }
 
     // Save current state
     saveToHistory();
@@ -296,13 +333,15 @@ const EnhancedRichTextEditor = ({
       const textContent = startHighlightParent.textContent;
 
       // Replace the highlight span with its text content
-      const textNode = document.createTextNode(textContent);
-      parent.replaceChild(textNode, startHighlightParent);
+      const textNode = document.createTextNode(textContent || "");
+      if (parent) {
+        parent.replaceChild(textNode, startHighlightParent);
+      }
 
       // Create a new range covering the text
       const newRange = document.createRange();
       newRange.setStart(textNode, 0);
-      newRange.setEnd(textNode, textContent.length);
+      newRange.setEnd(textNode, textContent?.length || 0);
 
       // Select the text
       selection.removeAllRanges();
@@ -317,14 +356,16 @@ const EnhancedRichTextEditor = ({
   };
 
   // Apply styled highlight
-  const applyStyledHighlight = (style) => {
+  const applyStyledHighlight = (style: StyledHighlight): void => {
     const selInfo = getSelectionInfo();
     if (!selInfo) return;
 
     const { selection, range } = selInfo;
 
     // Focus the editor
-    editorRef.current.focus();
+    if (editorRef.current) {
+      editorRef.current.focus();
+    }
 
     // Save current state
     saveToHistory();
@@ -341,13 +382,15 @@ const EnhancedRichTextEditor = ({
       // Remove the existing highlight
       const parent = startHighlightParent.parentNode;
       const textContent = startHighlightParent.textContent;
-      const textNode = document.createTextNode(textContent);
-      parent.replaceChild(textNode, startHighlightParent);
+      const textNode = document.createTextNode(textContent || "");
+      if (parent) {
+        parent.replaceChild(textNode, startHighlightParent);
+      }
 
       // Create a new range covering the text
       const newRange = document.createRange();
       newRange.setStart(textNode, 0);
-      newRange.setEnd(textNode, textContent.length);
+      newRange.setEnd(textNode, textContent?.length || 0);
 
       // Select the text
       selection.removeAllRanges();
@@ -355,40 +398,42 @@ const EnhancedRichTextEditor = ({
 
       // Get updated selection and range
       const updatedSelection = window.getSelection();
-      const updatedRange = updatedSelection.getRangeAt(0);
+      const updatedRange = updatedSelection?.getRangeAt(0);
 
-      // Create styled span
-      const span = document.createElement("span");
-      span.setAttribute("data-highlight", "true");
-      span.style.background = style.style;
-      span.style.padding = "0 4px";
+      if (updatedRange) {
+        // Create styled span
+        const span = document.createElement("span");
+        span.setAttribute("data-highlight", "true");
+        span.style.background = style.style;
+        span.style.padding = "0 4px";
 
-      // Add extra classes if any
-      if (style.extraClass) {
-        // Handle Tailwind-like classes manually
-        const classes = style.extraClass.split(" ");
-        classes.forEach((cls) => {
-          if (cls.includes("rounded")) {
-            span.style.borderRadius = "0.375rem";
-          } else if (cls.includes("border-b-4")) {
-            span.style.borderBottom = "4px solid";
-          } else if (cls.includes("border-2")) {
-            span.style.border = "2px solid";
-          } else if (cls.includes("border-green-400")) {
-            span.style.borderColor = "#4ade80";
-          } else if (cls.includes("border-blue-400")) {
-            span.style.borderColor = "#60a5fa";
-          }
-        });
+        // Add extra classes if any
+        if (style.extraClass) {
+          // Handle Tailwind-like classes manually
+          const classes = style.extraClass.split(" ");
+          classes.forEach((cls: string) => {
+            if (cls.includes("rounded")) {
+              span.style.borderRadius = "0.375rem";
+            } else if (cls.includes("border-b-4")) {
+              span.style.borderBottom = "4px solid";
+            } else if (cls.includes("border-2")) {
+              span.style.border = "2px solid";
+            } else if (cls.includes("border-green-400")) {
+              span.style.borderColor = "#4ade80";
+            } else if (cls.includes("border-blue-400")) {
+              span.style.borderColor = "#60a5fa";
+            }
+          });
+        }
+
+        // Extract the content and put it in the span
+        const fragment = updatedRange.extractContents();
+        span.appendChild(fragment);
+        updatedRange.insertNode(span);
+
+        // Clear selection
+        selection.removeAllRanges();
       }
-
-      // Extract the content and put it in the span
-      const fragment = updatedRange.extractContents();
-      span.appendChild(fragment);
-      updatedRange.insertNode(span);
-
-      // Clear selection
-      selection.removeAllRanges();
     } else {
       // No existing highlight, apply new one
       // Create styled span
@@ -401,7 +446,7 @@ const EnhancedRichTextEditor = ({
       if (style.extraClass) {
         // Handle Tailwind-like classes manually
         const classes = style.extraClass.split(" ");
-        classes.forEach((cls) => {
+        classes.forEach((cls: string) => {
           if (cls.includes("rounded")) {
             span.style.borderRadius = "0.375rem";
           } else if (cls.includes("border-b-4")) {
@@ -430,14 +475,16 @@ const EnhancedRichTextEditor = ({
   };
 
   // Remove highlight
-  const removeHighlight = () => {
+  const removeHighlight = (): void => {
     const selInfo = getSelectionInfo();
     if (!selInfo) return;
 
     const { selection, range } = selInfo;
 
     // Focus editor
-    editorRef.current.focus();
+    if (editorRef.current) {
+      editorRef.current.focus();
+    }
 
     // Save current state
     saveToHistory();
@@ -453,8 +500,10 @@ const EnhancedRichTextEditor = ({
       // Remove the existing highlight
       const parent = startHighlightParent.parentNode;
       const textContent = startHighlightParent.textContent;
-      const textNode = document.createTextNode(textContent);
-      parent.replaceChild(textNode, startHighlightParent);
+      const textNode = document.createTextNode(textContent || "");
+      if (parent) {
+        parent.replaceChild(textNode, startHighlightParent);
+      }
 
       // Update editor content
       updateEditorContent();
@@ -468,19 +517,19 @@ const EnhancedRichTextEditor = ({
   };
 
   // Handle editor input
-  const handleEditorInput = () => {
+  const handleEditorInput = (): void => {
     // Save to history and update preview
     saveToHistory();
     updateEditorContent();
   };
 
   // Toggle preview
-  const handleTogglePreview = () => {
+  const handleTogglePreview = (): void => {
     setShowPreview(!showPreview);
   };
 
   // Handle keyboard shortcuts
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent): void => {
     // Check for Ctrl/Cmd+Z (Undo)
     if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
       e.preventDefault();
@@ -519,13 +568,19 @@ const EnhancedRichTextEditor = ({
       setHistoryIndex(0);
 
       // Add event listeners
-      editorRef.current.addEventListener("keydown", handleKeyDown);
+      editorRef.current.addEventListener(
+        "keydown",
+        handleKeyDown as unknown as EventListener
+      );
     }
 
     // Cleanup
     return () => {
       if (editorRef.current) {
-        editorRef.current.removeEventListener("keydown", handleKeyDown);
+        editorRef.current.removeEventListener(
+          "keydown",
+          handleKeyDown as unknown as EventListener
+        );
       }
     };
   }, []);
@@ -792,4 +847,4 @@ const EnhancedRichTextEditor = ({
   );
 };
 
-export default EnhancedRichTextEditor;
+export default RichTextEditor;

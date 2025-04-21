@@ -10,14 +10,6 @@ import SocialBanner from "./SocialBanner";
 const TemplatePanel = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<number | null>(3);
 
-  const templates = [
-    { id: 1, angle: 0 },
-    { id: 2, angle: 15 },
-    { id: 3, angle: 30 },
-    { id: 4, angle: 45 },
-    { id: 5, angle: 60 },
-  ];
-
   return (
     <div className="flex flex-col h-screen bg-zinc-950 p-4">
       {/* Export Header */}

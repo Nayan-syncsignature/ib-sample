@@ -37,7 +37,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Data } from "@/components/types";
-import EnhancedRichTextEditor from "./components/RichTextEditor";
+import RichTextEditor from "./components/RichTextEditor";
 
 // Define Zod schema for form validation
 const formSchema = z.object({
@@ -71,19 +71,10 @@ type FormValues = z.infer<typeof formSchema>;
 
 const ControlPanel = ({ type }: CanvasProps) => {
   const {
-    commonConfig,
     updateConfig,
-    updateWidth,
-    updateHeight,
     width,
     height,
     updateTextContent,
-    updateTextColor,
-    updateFontFamily,
-    updateHighlightColor,
-    updateBold,
-    updateItalic,
-    updateUnderline,
   } = useCommonConfig();
 
   const { data, updateContent } = useDataConfig();
@@ -253,7 +244,7 @@ const ControlPanel = ({ type }: CanvasProps) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <EnhancedRichTextEditor
+                        <RichTextEditor
                           initialContent={field.value}
                           onContentChange={handleRichTextChange}
                           fieldName="heading"
@@ -283,7 +274,7 @@ const ControlPanel = ({ type }: CanvasProps) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <EnhancedRichTextEditor
+                        <RichTextEditor
                           initialContent={field.value}
                           onContentChange={handleRichTextChange}
                           fieldName="subHeading"
@@ -313,7 +304,7 @@ const ControlPanel = ({ type }: CanvasProps) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <EnhancedRichTextEditor
+                        <RichTextEditor
                           initialContent={field.value}
                           onContentChange={handleRichTextChange}
                           fieldName="description"

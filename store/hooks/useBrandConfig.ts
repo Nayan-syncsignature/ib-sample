@@ -1,5 +1,5 @@
 // lib/redux/hooks/useBrandConfig.ts
-import { useAppSelector, useAppDispatch } from '../typedHooks';
+import { useAppSelector, useAppDispatch } from "../typedHooks";
 import {
   updatePrimaryColor,
   updateSecondaryColor,
@@ -8,14 +8,14 @@ import {
   updateSecondaryFont,
   updateHighlightFont,
   updateBrandConfig,
-  BrandConfigState
-} from '../slices/brandConfigSlice';
+} from "../slices/brandConfigSlice";
+import { BrandConfig } from "@/components/types";
 
 export const useBrandConfig = () => {
-  const brandConfig = useAppSelector(state => state.brandConfig);
+  const brandConfig = useAppSelector((state) => state.brandConfig);
   const dispatch = useAppDispatch();
 
-  const setBrandConfig = (config: Partial<BrandConfigState>) => {
+  const setBrandConfig = (config: Partial<BrandConfig>) => {
     dispatch(updateBrandConfig(config));
   };
 
@@ -62,6 +62,6 @@ export const useBrandConfig = () => {
     setHighlightColor,
     setPrimaryFont,
     setSecondaryFont,
-    setHighlightFont
+    setHighlightFont,
   };
 };

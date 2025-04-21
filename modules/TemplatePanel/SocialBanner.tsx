@@ -52,7 +52,10 @@ const SocialBanner = ({
       onClick={onClick}
     >
       <Card
-        className={`bg-gradient-to-br from-${gradientFrom} via-${gradientVia} to-${gradientTo} p-4 rounded-xl h-40 overflow-hidden relative`}
+        className="p-4 rounded-xl h-40 overflow-hidden relative !bg-gray-300"
+        style={{
+          background: `linear-gradient(to bottom right, var(--${gradientFrom}), var(--${gradientVia}), var(--${gradientTo}))`,
+        }}
       >
         {/* LinkedIn Banner Content */}
         <div className="flex flex-col h-full justify-between">
