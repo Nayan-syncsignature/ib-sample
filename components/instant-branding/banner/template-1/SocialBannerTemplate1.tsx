@@ -2,16 +2,12 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { CommonComponetProps } from "../../../types";
 
-/**
- * A customizable social media banner component
- */
 function SocialBannerTemplate1({
   data,
   commonConfig,
   brandConfig,
   className = "",
 }: CommonComponetProps) {
-  // Extract values from props for easier access
   const {
     width,
     height,
@@ -52,31 +48,49 @@ function SocialBannerTemplate1({
     <div
       className={cn("relative", className)}
       style={{
-        backgroundColor: primaryColor,
+      background: `radial-gradient(circle 600px at top right, #1D8992 12%, transparent 50%),
+                   radial-gradient(circle 600px at bottom left, #1D8992 12%, transparent 50%),
+                   #1D8992`,
+        backgroundBlendMode: "multiply",
         width: `${width}px`,
         height: `${height}px`,
       }}
     >
-      <div
-        className="absolute right-0 w-full h-full"
-        style={{
-          backgroundImage: `url(${backdropConfig?.backdropUrl})`,
-          backgroundSize: `${backdropConfig?.backdropSize}`,
-          backgroundPosition: `${backdropConfig?.backdropPosition}`,
-          backgroundRepeat: "no-repeat",
-        }}
-      />
+      <div className="absolute right-0 w-full h-full">
+        <div className="w-full h-full flex justify-end items-center">
+        <div className={cn("relative", className)}
+          style={{
+            width: `${width}px`,
+            height: `${height}px`,
+          }}
+        >
+        <div
+          className="absolute right-0 w-full h-full"
+          style={{
+            backgroundImage: `url(${backdropConfig?.backdropUrl})`,
+            backgroundSize: `${backdropConfig?.backdropSize}`,
+            backgroundPosition: `${backdropConfig?.backdropPosition}`,
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+        </div>
+        </div>
+      </div>
       <div className="relative grid grid-cols-[20%_60%_20%]">
         {/* JOIN OUR COMMUNITY button at top left */}
         <div className={`pl-[40px] pt-[40px]`} 
           style={{fontFamily: secondaryFont,}}
         >
           <div
-            className={`py-[10px] px-[16px] text-[16px] w-[231px] h-[44px]`}
-            style={{ backgroundColor: secondaryColor,
-              color: textColor, 
+            className={`py-[10px] px-[16px] text-[16px] inline-block`}
+            style={{
+              backgroundColor: secondaryColor,
+              color: textColor,
               fontFamily: secondaryFont,
-              borderRadius: (buttonStyle === "rounded") ? "6px" : "0px"
+              borderRadius: buttonStyle === "rounded" ? "6px" : "0px",
+              maxWidth: "375px",
+              wordBreak: "break-word",
+              hyphens: "auto"
             }}
           >
             {communityButtonText}
@@ -113,7 +127,7 @@ function SocialBannerTemplate1({
               <div
                 className={`text-center p-[14.08px] tracking-[-.05em] leading-[100%] text-[24.63px] font-semibold h-[49px] w-[188px]}`}
                 style={{ 
-                  backgroundColor: highlightColor,
+                  backgroundColor: secondaryColor,
                   color: textColor,
                   fontFamily: highlightFont,
                   borderRadius: (buttonStyle === "rounded") ? "6px" : "0px"}}

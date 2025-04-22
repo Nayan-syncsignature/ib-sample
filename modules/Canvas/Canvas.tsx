@@ -1,3 +1,5 @@
+"use client"
+
 import { componentMap, ComponentType } from "@/utils/component-mapper";
 import React, { Suspense } from "react";
 

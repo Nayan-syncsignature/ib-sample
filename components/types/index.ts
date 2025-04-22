@@ -21,7 +21,9 @@ export interface CommonConfig {
   backdropConfig?: {
     backdropUrl?: string;
     backdropPosition?: string;
-        backdropSize?: string;
+    backdropSize?: string;
+    backdropColor?: string;
+
   };
   textColor?: string;
 }

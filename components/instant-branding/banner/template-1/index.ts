@@ -1,3 +1,3 @@
-import SocialBannerTemplate1 from "./Template1";
+import SocialBannerTemplate1 from "./SocialBannerTemplate1";
 
 export default SocialBannerTemplate1

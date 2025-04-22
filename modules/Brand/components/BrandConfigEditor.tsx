@@ -56,12 +56,12 @@ const BrandConfigEditor: React.FC = () => {
               className="h-10 w-24 px-2 border rounded text-sm"
               placeholder="#000000"
               maxLength={7}
-            />
+            />#2F8992
           </div>
 
           <div className="flex items-center gap-4">
             <label htmlFor="secondaryColor" className="min-w-32">
-              Secondary Color:
+              Dark Color:
             </label>
             <input
               type="color"
@@ -77,12 +77,12 @@ const BrandConfigEditor: React.FC = () => {
               className="h-10 w-24 px-2 border rounded text-sm"
               placeholder="#000000"
               maxLength={7}
-            />
+            />#072A2E
           </div>
 
           <div className="flex items-center gap-4">
             <label htmlFor="highlightColor" className="min-w-32">
-              Highlight Color:
+              Light Color:
             </label>
             <input
               type="color"
@@ -98,7 +98,7 @@ const BrandConfigEditor: React.FC = () => {
               className="h-10 w-24 px-2 border rounded text-sm"
               placeholder="#000000"
               maxLength={7}
-            />
+            />#D4FBFF
           </div>
         </div>
 

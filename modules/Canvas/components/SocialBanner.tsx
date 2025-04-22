@@ -1,10 +1,6 @@
-"use client";
-
 import React from "react";
 import { useBrandConfig } from "@/lib/redux/hooks/useBrandConfig";
 import { Image } from "lucide-react";
-import SocialBanner from "@/components/instant-branding/banner/template-1/Template1";
-import useCanvasDimensions from "@/lib/redux/hooks/useCanvasDimensions";
 import SocialBannerTemplate1 from "@/components/instant-branding/banner/template-1";
 import { styles } from "@/components/instant-branding/banner/template-1/styles";
 
