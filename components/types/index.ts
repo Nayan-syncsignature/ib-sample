@@ -18,12 +18,22 @@ export interface CommonConfig {
     description?: string;
     button?: number;
   };
-  backdropConfig?: {
-    backdropUrl?: string;
-    backdropPosition?: string;
-    backdropSize?: string;
-    backdropColor?: string;
-
+  backgroundBackdropConfig?: {
+    backgroundBackdropUrl?: string;
+    backgroundBackdropPosition?: string;
+    backgroundBackdropSize?: string;
+    backgroundBackdropColor?: string;
+  };
+  headshotBackdropConfig?: {
+    headshotBackdropUrl?: string;
+    headshotBackdropPosition?: string;
+    headshotBackdropSize?: string;
+    headshotBackdropColor?: string;
+  };
+  contentBackgroundColor?: string;
+  backgroundStyle: {
+    type: "solid" | "radial" | "linear";
+    config?: any;
   };
   textColor?: string;
 }

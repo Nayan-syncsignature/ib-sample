@@ -56,7 +56,7 @@ const BrandConfigEditor: React.FC = () => {
               className="h-10 w-24 px-2 border rounded text-sm"
               placeholder="#000000"
               maxLength={7}
-            />#2F8992
+            />
           </div>
 
           <div className="flex items-center gap-4">
@@ -77,7 +77,7 @@ const BrandConfigEditor: React.FC = () => {
               className="h-10 w-24 px-2 border rounded text-sm"
               placeholder="#000000"
               maxLength={7}
-            />#072A2E
+            />
           </div>
 
           <div className="flex items-center gap-4">
@@ -98,7 +98,7 @@ const BrandConfigEditor: React.FC = () => {
               className="h-10 w-24 px-2 border rounded text-sm"
               placeholder="#000000"
               maxLength={7}
-            />#D4FBFF
+            />
           </div>
         </div>
 
