@@ -12,11 +12,17 @@ export interface Data {
 export interface CommonConfig {
   width: number;
   height: number;
-  buttonStyle?: "rounded" | "square";
+  buttonStyle?: {
+    buttonType: 'normal' | 'bordered' ;
+    buttonColor: 'primary' | 'secondary' | 'highlight', 
+    buttonTextColor: string,
+    buttonRadius?: string,
+  };
   fontSize?: {
-    heading?: string;
+    heading: number;
     description?: string;
-    button?: number;
+    button?: string;
+    communitybutton: number;
   };
   backgroundBackdropConfig?: {
     backgroundBackdropUrl?: string;

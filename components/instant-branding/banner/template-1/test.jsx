@@ -20,6 +20,7 @@ function SocialBannerTemplate1({
     backgroundStyle,
     contentBackgroundColor,
   } = commonConfig;
+
   const {
     primaryColor,
     secondaryColor,
@@ -39,12 +40,6 @@ function SocialBannerTemplate1({
     ctaButtonText,
   } = data;
 
-  const backgroundValue = generateBackground(
-    backgroundStyle,
-    primaryColor,
-    secondaryColor
-  );
-
   // Calculate scaling factors based on provided dimensions
   // Reference dimensions (LinkedIn banner) to scale from
   const refWidth = 1584;
@@ -60,60 +55,60 @@ function SocialBannerTemplate1({
 
   // Responsive font sizes if not explicitly provided
   const responsiveFontSizes = {
-    heading: `${scaleValue(48)}px`,
-    description: `${scaleValue(32)}px`,
-    button: `${scaleValue(24.63)}px`,
-    communitybutton: `${scaleValue(16)}px`,
+    heading: `${scaleValue(fontSize?.heading || 16)}px`,
+    description: fontSize?.description || `${scaleValue(32)}px`,
+    button: fontSize?.button || `${scaleValue(16)}px`,
+    communitybutton: `${scaleValue(fontSize?.communitybutton || 16)}px`,
   };
 
   // Responsive spacing
   const spacing = {
     communityButtonTop: scaleValue(45),
     communityButtonLeft: scaleValue(45),
-    communityButtonPaddingY: scaleValue(16),
+    communityButtonPaddingY: scaleValue(10),
     communityButtonPaddingX: scaleValue(16),
     contentPadding: scaleValue(32),
     contentGap: scaleValue(32),
     titleLineHeight: "100%",
     buttonRadius: buttonStyle?.buttonRadius,
-    ctaButtonTextPadding: scaleValue(16),
   };
 
   // Calculate layout dimensions
-  const contentDivWidth = scaleValue(901);
-  const contentDivHeight = scaleValue(263);
-  const contentSubDivWidth = scaleValue(841);
-  const contentSubDivHeight = scaleValue(199.27);
-  const headingHeight = scaleValue(130);
-  const headingWidth = scaleValue(470);
+  const contentWidth = scaleValue(901);
+  const contentHeight = scaleValue(263);
+  const headingWidth = scaleValue(837);
+  const headingHeight = scaleValue(199);
+  const titleHeight = scaleValue(130);
   const descriptionWidth = scaleValue(342);
   const descriptionHeight = scaleValue(118);
 
-  const headshotHeight = scaleValue(486);
-
-
-  const isFacebookCover = width === 820 && height === 360;
+  const isFacebookCover = width === 820 && height === 312;
   const isTwitterCovers = width === 1500 && height === 500;
 
   // Consistent grid layout for all sizes
   const gridColumns = isFacebookCover
-    ? "grid-cols-[10%_50%_40%]"
-    : isTwitterCovers
-    ? "grid-cols-[20%_50%_30%]"
-    : "grid-cols-[20%_50%_30%]";
+    ? "grid-cols-[15%_55%_30%]"
+    : isTwitterCovers ? "grid-cols-[15%_55%_30%]" : "grid-cols-[20%_50%_30%]" ;
 
+  // Generate background style
+  const backgroundValue = generateBackground(
+    backgroundStyle,
+    primaryColor,
+    secondaryColor
+  );
+
+  // Generate button styles
   const buttoncolor: string =
     buttonStyle?.buttonColor === "secondary"
       ? secondaryColor
       : buttonStyle?.buttonColor === "primary"
       ? primaryColor
       : highlightColor;
-
   const buttonStyles = getButtonClasses(
     buttonStyle?.buttonType || "normal",
     buttoncolor,
     highlightColor,
-    buttonStyle?.buttonRadius || "0px"
+    buttonStyle?.buttonRadius || "0px",
   );
 
   return (
@@ -128,11 +123,10 @@ function SocialBannerTemplate1({
         overflow: "hidden",
       }}
     >
-      {/* background backdrop */}
+      {/* Background backdrop */}
       <div className="absolute right-0 w-full h-full">
         <div className="w-full h-full flex justify-end items-center">
           <div
-            className={cn("relative", className)}
             style={{
               width: `${width}px`,
               height: `${height}px`,
@@ -150,11 +144,11 @@ function SocialBannerTemplate1({
           </div>
         </div>
       </div>
-      {/* headshot backdrop */}
+
+      {/* Headshot backdrop */}
       <div className="absolute right-0 w-full h-full">
         <div className="w-full h-full flex justify-end items-center">
           <div
-            className={cn("relative", className)}
             style={{
               width: `${width}px`,
               height: `${height}px`,
@@ -172,15 +166,14 @@ function SocialBannerTemplate1({
           </div>
         </div>
       </div>
-      <div 
-        className={`relative grid ${gridColumns}`}
-        style={{
-          width: `${width}px`,
-          height: `${height}px`,
-        }}
-        >
-        {/* JOIN OUR COMMUNITY button at top left */}
+
+      {/* Main content container */}
+      <div
+        className={`relative w-full h-full grid ${gridColumns} `}
+      >
+        {/* JOIN OUR COMMUNITY button */}
         <div
+          className="pl-auto"
           style={{
             fontFamily: secondaryFont,
             paddingTop: `${spacing.communityButtonTop}px`,
@@ -188,48 +181,49 @@ function SocialBannerTemplate1({
           }}
         >
           <div
-            className={`inline-block`}
             style={{
               padding: `${spacing.communityButtonPaddingY}px ${spacing.communityButtonPaddingX}px`,
-              fontSize: `${responsiveFontSizes?.communitybutton}`,
               backgroundColor: secondaryColor,
               color: textColor,
               fontFamily: secondaryFont,
+              fontSize: responsiveFontSizes.button,
+              borderRadius: "0px",
+              display: "inline-block",
               maxWidth: `${scaleValue(375)}px`,
               wordBreak: "break-word",
               hyphens: "auto",
-              borderRadius: "0px",
-              display: "inline-block",
             }}
           >
             {communityButtonText}
           </div>
         </div>
 
-        {/* Main content container with fixed width */}
+        {/* Main content */}
         <div
           className={
             contentBackgroundColor === "true" ? "p-4 rounded-2xl" : "p-4"
           }
           style={{
-            height: `${contentDivHeight}px`,
-            width: `${contentDivWidth}px`,
+            height: `${contentHeight}px`,
+            width: `${contentWidth}px`,
             margin: "auto",
             backgroundColor:
               contentBackgroundColor === "true"
                 ? secondaryColor
                 : "transparent",
+            display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
           }}
         >
           <div
-            className="grid grid-cols-[60%_40%]"
+            className="grid grid-cols-[60%_40%] gap-4"
             style={{
-              height: `${contentSubDivHeight}px`,
-              width: `${contentSubDivWidth}px`,
+              height: `${headingHeight}px`,
+              width: `${headingWidth}px`,
             }}
           >
-            {/* Left content area - titles */}
+            {/* Heading */}
             <div
               className="text-right"
               style={{
@@ -239,20 +233,18 @@ function SocialBannerTemplate1({
                 fontWeight: 600,
                 lineHeight: spacing.titleLineHeight,
                 letterSpacing: "-0.05em",
-                height: `${headingHeight}px`,
-                width: `${headingWidth}px`
+                height: `${titleHeight}px`,
               }}
             >
               {heading}
             </div>
 
-            {/* Right content area - sub-titles */}
+            {/* Description and CTA */}
             <div
               className="flex flex-col"
               style={{
                 width: `${descriptionWidth}px`,
                 height: `${descriptionHeight}px`,
-                gap: `${spacing?.contentPadding}px`,
               }}
             >
               <div
@@ -268,13 +260,17 @@ function SocialBannerTemplate1({
               >
                 {description}
               </div>
-              <div className="flex items-end">
+
+              <div
+                style={{
+                  marginTop: 32 * heightRatio, // 'mt-8' → 32px base
+                }}
+              >
                 <div
-                  className={`text-center tracking-[-.05em] leading-[100%] font-semibold h-fit w-fit`}
+                  className={`text-center tracking-[-.05em] leading-[100%] p-[16px] font-semibold h-fit w-fit ${buttonStyles.className}`}
                   style={{
                     ...buttonStyles.style,
                     fontSize: responsiveFontSizes.button,
-                    fontFamily: highlightFont,
                     padding: `${16 * heightRatio}px`,
                   }}
                 >
@@ -285,18 +281,13 @@ function SocialBannerTemplate1({
           </div>
         </div>
 
-        {/* Right side - Headshot with light effect */}
-        <div className="relative overflow-hidden rounded-lg "
-        style= {{
-          height: `${headshotHeight}`,
-          alignContent: 'end',
-        }}>
-          {/* Headshot image */}
+        {/* Right side - Headshot */}
+        <div className="relative h-full overflow-hidden justify-items-bottom">
           {imageUrl && (
             <img
               src={imageUrl}
               alt={imageAlt}
-              className="object-cover object-left w-full"
+              className="object-cover h-full object-right-bottom justify-self-end "              
             />
           )}
         </div>

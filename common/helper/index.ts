@@ -68,3 +68,44 @@ export const generateBackground = (
   // Default fallback
   return primaryColor;
 };
+
+export type ButtonStyle = 'normal' | 'rounded' | 'bordered';
+export type ButtonColor = string;
+export type FontColor = string;
+export type BorderRadius = string;
+
+
+export const getButtonClasses = (
+  style: ButtonStyle,
+  color: string,
+  fontColor: string,
+  radius: string,
+) => {
+  // Tailwind classes for layout and non-color styling
+  const baseClasses = '';
+  
+  // Add border radius based on style
+  const styleClass = style === 'rounded' ? 'rounded-full' : '';
+  
+  // Dynamic styles that will be applied inline
+  const styles = style === 'bordered' 
+    ? {
+        backgroundColor: 'transparent',
+        color: color,
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: color,
+        borderRadius: radius,
+      }
+    : {
+        backgroundColor: color,
+        color: fontColor,
+        border: 'none',
+        borderRadius: radius,
+      };
+  
+  return {
+    className: `${baseClasses} ${styleClass}`,
+    style: styles
+  };
+};
