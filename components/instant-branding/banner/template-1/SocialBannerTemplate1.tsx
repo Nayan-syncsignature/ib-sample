@@ -234,7 +234,7 @@ function SocialBannerTemplate1({
               className="text-right"
               style={{
                 fontSize: responsiveFontSizes.heading,
-                fontFamily: secondaryFont,
+                fontFamily: primaryFont,
                 color: textColor,
                 fontWeight: 600,
                 lineHeight: spacing.titleLineHeight,
@@ -274,7 +274,7 @@ function SocialBannerTemplate1({
                   style={{
                     ...buttonStyles.style,
                     fontSize: responsiveFontSizes.button,
-                    fontFamily: highlightFont,
+                    fontFamily: secondaryFont,
                     padding: `${16 * heightRatio}px`,
                   }}
                 >
